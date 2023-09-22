@@ -58,7 +58,8 @@ class MergeTexts {
             for (int i=0; i<files.length; i++){
                 // open input stream
                 fin=new FileReader(args[0]+"/"+files[i].getName());
-                System.out.println("Merging "+args[0]+"/"+files[i].getName());
+                //System.out.println("Merging "+args[0]+"/"+files[i].getName());
+                System.out.println("Merging "+args[0]+System.getProperty(dir.separator)+files[i].getName());
                 // and merge to the output one
                 do {
                     characters=fin.read();                 
