@@ -16,19 +16,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 //import com.google.gson.Gson;
-
 /**
  *
  * @author joange
  */
 public class JsonModules {
 
-    ArrayList<Modul> Curs;
+    ArrayList<Modul> Course;
 
-    private void creaCurs() {
-        // Aquest mètode inicializa l'objecte "Curs" de la classe JSONLib
+    private void createCourse() {
+        // Aquest mètode inicializa l'objecte "Course" de la classe JSONLib
         // que no és més que un vector de mòduls
-        Curs = new ArrayList<>();
+        Course = new ArrayList<>();
 
         // Definim els vectors per inicialitzar dades
         String[] moduls = {"Accés a Dades", "Programació de serveis i processos", "Desenvolupament d'interfícies", "Programació Multimèdia i dispositiud mòbils", "Sistemes de Gestió Empresarial", "Empresa i iniciativa emprenedora"};
@@ -36,36 +35,36 @@ public class JsonModules {
         double[] notes = {8.45, 9.0, 8.0, 7.34, 8.2, 7.4};
 
         // Recorrem els vectors, creant els objectes
-        // de tipus Modul i guardant-los en Curs
+        // de tipus Modul i guardant-los en Course
         for (int i = 0; i < moduls.length; i++) {
             Modul m = new Modul(moduls[i], hores[i], notes[i]);
-            this.Curs.add(m);
+            this.Course.add(m);
         }
 
     }
 
-    private JSONObject creaJSON() {
+    private JSONObject createJSON() {
 
-        // root element "Curs"
-        JSONObject curs = new JSONObject();
+        // root element "Course"
+        JSONObject course = new JSONObject();
 
         // who is a JSONArray
         JSONArray jsarray = new JSONArray();
 
         // we populate the array with individual modules
-        for (Modul m : this.Curs) {
+        for (Modul m : this.Course) {
             JSONObject modul_json = m.getModulJSON();
             jsarray.put(modul_json);
         }
 
-        // Create the curs element with the array
-        curs.put("curs", jsarray);
+        // Create the course element with the array
+        course.put("course", jsarray);
 
-        return (curs);
+        return (course);
 
     }
 
-    private void escriuJSON(String filename, JSONObject jso) {
+    private void writeJSON(String filename, JSONObject jso) {
 
         try {
             FileWriter file = new FileWriter(filename);
@@ -77,7 +76,7 @@ public class JsonModules {
         }
     }
 
-    private JSONObject lligJSON(String filename) {
+    private JSONObject readJSON(String filename) {
         try {
             // Amb FileReader llegirem caràcter a 
             // caràcter el fitxer i l'afegim al string myJson
@@ -102,10 +101,10 @@ public class JsonModules {
         }
     }
 
-    private void mostraJson(JSONObject json) {
+    private void showJSON(JSONObject json) {
 
         // amb el mètode getJSONArray obtenim el primer
-        // element "curs", que era una llista
+        // element "course", que era una llista
         JSONArray jsa = json.getJSONArray("curs");
 
         // I ara recorrem aquesta llista:
@@ -118,7 +117,6 @@ public class JsonModules {
             // Als valors d'aquests parells també accedirem amb get:
             System.out.println("Modul: " + modul.get("nom"));
             System.out.println("Hores: " + modul.get("hores"));
-
             System.out.println("Nota: " + modul.get("nota"));
 
             /*
@@ -130,7 +128,7 @@ public class JsonModules {
         }
 
     }
-    
+
 //    private void loadWithGSON(String filename) throws IOException{
 //
 //        String jsonFile=new String(Files.readAllBytes(Paths.get(filename)));
@@ -144,24 +142,22 @@ public class JsonModules {
 //        }
 //          
 //    }
-    
     public static void main(String[] args) throws IOException {
- 
+
         JsonModules jsonM = new JsonModules();
 
-        jsonM.creaCurs();
+        jsonM.createCourse();
 
-        JSONObject obj = jsonM.creaJSON();
+        JSONObject obj = jsonM.createJSON();
 
-        jsonM.escriuJSON("moduls.json", obj);
+        jsonM.writeJSON("moduls.json", obj);
 
-        JSONObject obj2 = jsonM.lligJSON("moduls.json");
-        
-        jsonM.mostraJson(obj2);
-        
+        JSONObject obj2 = jsonM.readJSON("moduls.json");
+
+        jsonM.showJSON(obj2);
+
 //        System.out.println("------ Gson ------");
 //        jsonM.loadWithGSON("moduls_1.json");
-
     }
 
 }
